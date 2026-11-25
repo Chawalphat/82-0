@@ -3,6 +3,7 @@
 Run:  streamlit run app.py
 """
 import random
+from pathlib import Path
 
 import joblib
 import pandas as pd
@@ -17,14 +18,17 @@ POS_NAMES = {"PG": "Point Guard", "SG": "Shooting Guard", "SF": "Small Forward",
 st.set_page_config(page_title="82-0 NBA Challenge", page_icon="🏀", layout="wide")
 
 
+APP_DIR = Path(__file__).parent  # works no matter which folder the app is started from
+
+
 @st.cache_data
 def load_players():
-    return pd.read_csv("data/nba_2026_27_players.csv")
+    return pd.read_csv(APP_DIR / "data" / "nba_2026_27_players.csv")
 
 
 @st.cache_resource
 def load_model():
-    return joblib.load("model/win_predictor.joblib")
+    return joblib.load(APP_DIR / "model" / "win_predictor.joblib")
 
 
 players = load_players()
